@@ -1,6 +1,8 @@
 Unipart OpenStack client tools
 ==============================
 
+[![Build Status](https://travis-ci.com/unipartdigital/uosclient.svg?branch=master)](https://travis-ci.com/unipartdigital/uosclient)
+
 This is a set of simple tools designed to automate various common
 system administration tasks within the Unipart OpenStack
 infrastructure.
