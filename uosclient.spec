@@ -32,6 +32,7 @@ infrastructure.
 %autosetup
 
 %build
+export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %py3_build
 
 %install
