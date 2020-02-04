@@ -1,7 +1,7 @@
 %global srcname uosclient
 
 Name:		python-%{srcname}
-Version:	0.0.4
+Version:	0.0.5
 Release:	1%{?dist}
 Summary:	Unipart OpenStack client tools
 License:	GPLv2+
@@ -46,5 +46,8 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %{python3_sitelib}/%{srcname}-%{version}-*.egg-info/
 
 %changelog
+* Tue Feb 04 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.5-1
+- build: Fix building of RPM from a tarball
+
 * Tue Feb 04 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.4-1
 - First package built with tito
