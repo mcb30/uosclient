@@ -13,7 +13,14 @@ setup(
         'setuptools_scm',
     ],
     install_requires=([
+        'netaddr',
         'osc_lib',
         'python-openstackclient',
     ]),
+    entry_points={
+        'openstack.common': [
+            'uos_routing_port_create=uosclient.port:CreateRoutingPort',
+            'uos_routing_port_delete=uosclient.port:DeleteRoutingPort',
+        ],
+    },
 )
