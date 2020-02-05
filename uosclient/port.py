@@ -44,7 +44,7 @@ class CreateRoutingPort(command.ShowOne):
             raise CommandError('Subnet %s already exists' % parsed_args.name)
         subnet = mgr.network.create_subnet(
             name=parsed_args.name,
-            tenant_id=network.project_id,
+            project_id=network.project_id,
             network_id=network.id,
             ip_version=6,
             prefixlen=parsed_args.prefix_length,
@@ -62,7 +62,7 @@ class CreateRoutingPort(command.ShowOne):
             raise CommandError('Port %s already exists' % parsed_args.name)
         port = mgr.network.create_port(
             name=parsed_args.name,
-            tenant_id=network.project_id,
+            project_id=network.project_id,
             network_id=network.id,
             dns_name=parsed_args.dns_name,
             description="Routing port",
