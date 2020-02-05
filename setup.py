@@ -15,10 +15,13 @@ setup(
     install_requires=([
         'netaddr',
         'osc_lib',
+        'python-designateclient',
         'python-openstackclient',
     ]),
     entry_points={
         'openstack.common': [
+            'uos_network_create=uosclient.network:CreateNetwork',
+            'uos_network_delete=uosclient.network:DeleteNetwork',
             'uos_routing_port_create=uosclient.port:CreateRoutingPort',
             'uos_routing_port_delete=uosclient.port:DeleteRoutingPort',
         ],
