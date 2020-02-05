@@ -1,7 +1,7 @@
 %global srcname uosclient
 
 Name:		python-%{srcname}
-Version:	0.0.5
+Version:	0.0.6
 Release:	1%{?dist}
 Summary:	Unipart OpenStack client tools
 License:	GPLv2+
@@ -46,6 +46,10 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %{python3_sitelib}/%{srcname}-%{version}-*.egg-info/
 
 %changelog
+* Wed Feb 05 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.6-1
+- network: Add tools for creating and deleting per-project networks
+- port: Use project_id in place of tenant_id
+
 * Tue Feb 04 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.5-1
 - build: Fix building of RPM from a tarball
 
