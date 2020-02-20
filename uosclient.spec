@@ -1,7 +1,7 @@
 %global srcname uosclient
 
 Name:		python-%{srcname}
-Version:	0.0.6
+Version:	0.0.7
 Release:	1%{?dist}
 Summary:	Unipart OpenStack client tools
 License:	GPLv2+
@@ -46,6 +46,9 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %{python3_sitelib}/%{srcname}-%{version}-*.egg-info/
 
 %changelog
+* Thu Feb 20 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.7-1
+- network: Set default DNS TTL to 60 seconds
+
 * Wed Feb 05 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.6-1
 - network: Add tools for creating and deleting per-project networks
 - port: Use project_id in place of tenant_id
