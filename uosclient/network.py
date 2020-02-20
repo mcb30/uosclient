@@ -22,6 +22,10 @@ class CreateNetwork(command.ShowOne):
             help=_("DNS zone"),
         )
         parser.add_argument(
+            '--ttl', metavar='<ttl>', type=int, default=60,
+            help=_("DNS default TTL"),
+        )
+        parser.add_argument(
             'name', metavar='<name>',
             help=_("Network name"),
         )
@@ -75,6 +79,7 @@ class CreateNetwork(command.ShowOne):
             parsed_args.zone,
             'PRIMARY',
             email='sysadmins@unipart.io',
+            ttl=parsed_args.ttl,
         )
 
         # Create network and subnets
