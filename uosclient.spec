@@ -1,7 +1,7 @@
 %global srcname uosclient
 
 Name:		python-%{srcname}
-Version:	0.0.7
+Version:	0.0.8
 Release:	1%{?dist}
 Summary:	Unipart OpenStack client tools
 License:	GPLv2+
@@ -46,6 +46,10 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %{python3_sitelib}/%{srcname}-%{version}-*.egg-info/
 
 %changelog
+* Fri Feb 21 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.8-1
+- network: Support older versions of openstack.exceptions
+- doc: Document preferred installation methods
+
 * Thu Feb 20 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.7-1
 - network: Set default DNS TTL to 60 seconds
 
