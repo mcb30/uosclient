@@ -1,11 +1,13 @@
 """Unipart OpenStack network client tools"""
 
 import time
-from openstack.exceptions import ConflictException
+from openstack.exceptions import HttpException
 from openstackclient.i18n import _
 from openstackclient.identity.common import find_project
 from osc_lib.command import command
 from osc_lib.utils import format_list
+
+HTTP_CONFLICT = 409
 
 
 class CreateNetwork(command.ShowOne):
@@ -31,6 +33,19 @@ class CreateNetwork(command.ShowOne):
         )
         return parser
 
+    def _ensure_security_group_rule(self, secgroup, **kwargs):
+        """Ensure that security group rule exists"""
+        mgr = self.app.client_manager
+        try:
+            mgr.network.create_security_group_rule(
+                security_group_id=secgroup.id,
+                project_id=secgroup.project_id,
+                **kwargs
+            )
+        except HttpException as exc:
+            if exc.response.status_code != HTTP_CONFLICT:
+                raise
+
     def take_action(self, parsed_args):
         mgr = self.app.client_manager
         if parsed_args.project is None:
@@ -46,30 +61,22 @@ class CreateNetwork(command.ShowOne):
             project_id=project.id,
             name='default',
         ))
-        try:
-            mgr.network.create_security_group_rule(
-                security_group_id=secgroup.id,
-                project_id=project.id,
-                direction='ingress',
-                ethertype='IPv4',
-                remote_ip_prefix='0.0.0.0/0',
-                protocol='icmp',
-                port_range_min=8,  # ICMP type
-            )
-        except ConflictException:
-            pass
-        try:
-            mgr.network.create_security_group_rule(
-                security_group_id=secgroup.id,
-                project_id=project.id,
-                direction='ingress',
-                ethertype='IPv6',
-                remote_ip_prefix='::/0',
-                protocol='icmp',
-                port_range_min=128,  # ICMP type
-            )
-        except ConflictException:
-            pass
+        self._ensure_security_group_rule(
+            secgroup,
+            direction='ingress',
+            ethertype='IPv4',
+            remote_ip_prefix='0.0.0.0/0',
+            protocol='icmp',
+            port_range_min=8,  # ICMP type
+        )
+        self._ensure_security_group_rule(
+            secgroup,
+            direction='ingress',
+            ethertype='IPv6',
+            remote_ip_prefix='::/0',
+            protocol='icmp',
+            port_range_min=128,  # ICMP type
+        )
 
         # Find or create DNS zone
         mgr.dns.session.sudo_project_id = project.id
