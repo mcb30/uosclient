@@ -33,13 +33,15 @@ class CreateNetwork(command.ShowOne):
         )
         return parser
 
-    def _ensure_security_group_rule(self, secgroup, **kwargs):
+    def _ensure_security_group_rule(self, secgroup, direction='ingress',
+                                    **kwargs):
         """Ensure that security group rule exists"""
         mgr = self.app.client_manager
         try:
             mgr.network.create_security_group_rule(
                 security_group_id=secgroup.id,
                 project_id=secgroup.project_id,
+                direction=direction,
                 **kwargs
             )
         except HttpException as exc:
@@ -63,7 +65,6 @@ class CreateNetwork(command.ShowOne):
         ))
         self._ensure_security_group_rule(
             secgroup,
-            direction='ingress',
             ethertype='IPv4',
             remote_ip_prefix='0.0.0.0/0',
             protocol='icmp',
@@ -71,7 +72,6 @@ class CreateNetwork(command.ShowOne):
         )
         self._ensure_security_group_rule(
             secgroup,
-            direction='ingress',
             ethertype='IPv6',
             remote_ip_prefix='::/0',
             protocol='icmp',
