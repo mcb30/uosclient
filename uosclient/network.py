@@ -51,6 +51,15 @@ class CreateNetwork(command.ShowOne):
             if exc.response.status_code != HTTP_CONFLICT:
                 raise
 
+    def _ensure_security_group_rules(self, secgroup, **kwargs):
+        """Ensure that security group rules exist for both IPv4 and IPv6"""
+        if 'remote_group_id' not in kwargs:
+            kwargs['remote_ip_prefix'] = '0.0.0.0/0'
+        self._ensure_security_group_rule(secgroup, ethertype='IPv4', **kwargs)
+        if 'remote_group_id' not in kwargs:
+            kwargs['remote_ip_prefix'] = '::/0'
+        self._ensure_security_group_rule(secgroup, ethertype='IPv6', **kwargs)
+
     def take_action(self, parsed_args):
         mgr = self.app.client_manager
         if parsed_args.project is None:
