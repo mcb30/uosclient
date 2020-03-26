@@ -67,10 +67,10 @@ class SecurityGroupCommand(command.Command):
         # Create or update Puppet security group
         pupgroup = next(mgr.network.security_groups(
             project_id=project.id,
-            name='puppet (%s)' % project.name,
+            name='puppet-%s' % project.name,
         ), None) or mgr.network.create_security_group(
             project_id=project.id,
-            name='puppet (%s)' % project.name,
+            name='puppet-%s' % project.name,
             description="Puppet Master",
         )
         self._ensure_security_group_rules(pupgroup, port_range_min=80)
