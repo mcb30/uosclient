@@ -25,6 +25,7 @@ setup(
             'uos_network_delete=uosclient.network:DeleteNetwork',
             'uos_routing_port_create=uosclient.port:CreateRoutingPort',
             'uos_routing_port_delete=uosclient.port:DeleteRoutingPort',
+            'uos_security_groups_fix=uosclient.secgroup:FixSecurityGroups',
         ],
     },
 )
