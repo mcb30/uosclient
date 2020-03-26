@@ -92,6 +92,21 @@ class CreateNetwork(command.ShowOne):
             port_range_max=None,
         )
 
+        # Create or update Puppet security group
+        pupgroup = next(mgr.network.security_groups(
+            project_id=project.id,
+            name='puppet (%s)' % project.name,
+        ), None) or mgr.network.create_security_group(
+            project_id=project.id,
+            name='puppet (%s)' % project.name,
+            description="Puppet Master",
+        )
+        self._ensure_security_group_rules(pupgroup, port_range_min=80)
+        self._ensure_security_group_rules(pupgroup, port_range_min=443)
+        self._ensure_security_group_rules(pupgroup, port_range_min=8088)
+        self._ensure_security_group_rules(pupgroup, port_range_min=8140,
+                                          remote_group_id=secgroup.id)
+
         # Find or create DNS zone
         mgr.dns.session.sudo_project_id = project.id
         zone = next(iter(mgr.dns.zones.list({
