@@ -1,7 +1,7 @@
 %global srcname uosclient
 
 Name:		python-%{srcname}
-Version:	0.0.9
+Version:	0.0.10
 Release:	1%{?dist}
 Summary:	Unipart OpenStack client tools
 License:	GPLv2+
@@ -46,6 +46,14 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %{python3_sitelib}/%{srcname}-%{version}-*.egg-info/
 
 %changelog
+* Thu Mar 26 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.10-1
+- secgroup: Avoid using special characters in security group names
+- secgroup: Add tools for fixing default project security groups
+- network: Create a per-project Puppet security group
+- network: Provide wrapper for creating IPv4/IPv6 rule pairs
+- network: Assume a default protocol of 'tcp'
+- network: Assume a default direction of 'ingress'
+
 * Fri Feb 21 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.9-1
 - setup: Require at least Python 3.7
 
