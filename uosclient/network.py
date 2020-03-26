@@ -34,13 +34,16 @@ class CreateNetwork(command.ShowOne):
         return parser
 
     def _ensure_security_group_rule(self, secgroup, direction='ingress',
-                                    **kwargs):
+                                    protocol='tcp', **kwargs):
         """Ensure that security group rule exists"""
         mgr = self.app.client_manager
+        if 'port_range_max' not in kwargs:
+            kwargs['port_range_max'] = kwargs['port_range_min']
         try:
             mgr.network.create_security_group_rule(
                 security_group_id=secgroup.id,
                 project_id=secgroup.project_id,
+                protocol=protocol,
                 direction=direction,
                 **kwargs
             )
@@ -69,6 +72,7 @@ class CreateNetwork(command.ShowOne):
             remote_ip_prefix='0.0.0.0/0',
             protocol='icmp',
             port_range_min=8,  # ICMP type
+            port_range_max=None,
         )
         self._ensure_security_group_rule(
             secgroup,
@@ -76,6 +80,7 @@ class CreateNetwork(command.ShowOne):
             remote_ip_prefix='::/0',
             protocol='icmp',
             port_range_min=128,  # ICMP type
+            port_range_max=None,
         )
 
         # Find or create DNS zone
