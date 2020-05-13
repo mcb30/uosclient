@@ -1,2 +1,2 @@
 [MESSAGES CONTROL]
-disable=abstract-method
+disable=abstract-method,duplicate-code

@@ -2,6 +2,7 @@
 
 from netaddr import valid_ipv6
 from openstackclient.i18n import _
+from openstackclient.identity.common import find_project
 from osc_lib.command import command
 from osc_lib.exceptions import CommandError
 from osc_lib.utils import format_list_of_dicts
@@ -12,6 +13,10 @@ class CreateRoutingPort(command.ShowOne):
 
     def get_parser(self, prog_name):
         parser = super().get_parser(prog_name)
+        parser.add_argument(
+            '--project', metavar='<project>',
+            help=_("Project (name or ID)"),
+        )
         parser.add_argument(
             '--network', metavar='<network>',
             help=_("Network (name or ID)"),
@@ -36,15 +41,24 @@ class CreateRoutingPort(command.ShowOne):
             parsed_args.network = parsed_args.name.split('-', 1)[0]
         if parsed_args.dns_name is None:
             parsed_args.dns_name = parsed_args.name.split('-', 1)[1]
+
+        # Identify network
         network = mgr.network.find_network(parsed_args.network,
                                            ignore_missing=False)
+
+        # Identify project
+        project = find_project(
+            mgr.identity,
+            (network.project_id if parsed_args.project is None
+             else parsed_args.project)
+        )
 
         # Create subnet
         if mgr.network.find_subnet(parsed_args.name):
             raise CommandError('Subnet %s already exists' % parsed_args.name)
         subnet = mgr.network.create_subnet(
             name=parsed_args.name,
-            project_id=network.project_id,
+            project_id=project.id,
             network_id=network.id,
             ip_version=6,
             prefixlen=parsed_args.prefix_length,
@@ -62,7 +76,7 @@ class CreateRoutingPort(command.ShowOne):
             raise CommandError('Port %s already exists' % parsed_args.name)
         port = mgr.network.create_port(
             name=parsed_args.name,
-            project_id=network.project_id,
+            project_id=project.id,
             network_id=network.id,
             dns_name=parsed_args.dns_name,
             description="Routing port",
@@ -85,6 +99,7 @@ class CreateRoutingPort(command.ShowOne):
 
         return zip(*{
             'name': parsed_args.name,
+            'project_id': project.id,
             'network_id': network.id,
             'subnet_id': subnet.id,
             'port_id': port.id,
