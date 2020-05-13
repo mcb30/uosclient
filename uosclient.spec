@@ -1,7 +1,7 @@
 %global srcname uosclient
 
 Name:		python-%{srcname}
-Version:	0.0.10
+Version:	0.0.11
 Release:	1%{?dist}
 Summary:	Unipart OpenStack client tools
 License:	GPLv2+
@@ -46,6 +46,9 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %{python3_sitelib}/%{srcname}-%{version}-*.egg-info/
 
 %changelog
+* Wed May 13 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.11-1
+- port: Allow project to be specified explicitly for routing ports
+
 * Thu Mar 26 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.10-1
 - secgroup: Avoid using special characters in security group names
 - secgroup: Add tools for fixing default project security groups
