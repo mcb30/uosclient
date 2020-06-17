@@ -14,7 +14,7 @@ tasks are performed.
 Installation
 ------------
 
-### Fedora
+### Fedora / CentOS 8
 
 ```shell
 dnf copr enable unipartdigital/pkgs
