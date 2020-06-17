@@ -28,6 +28,8 @@ setup(
             'uos_routing_port_create=uosclient.port:CreateRoutingPort',
             'uos_routing_port_delete=uosclient.port:DeleteRoutingPort',
             'uos_security_groups_fix=uosclient.secgroup:FixSecurityGroups',
+            'uos_user_create=uosclient.user:CreateUser',
+            'uos_user_delete=uosclient.user:DeleteUser',
         ],
     },
 )
