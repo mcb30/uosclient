@@ -4,6 +4,7 @@ from openstackclient.i18n import _
 from openstackclient.identity.common import find_project, find_user
 from osc_lib.command import command
 from osc_lib.utils import format_list
+from passlib.pwd import genword
 
 from .project import ProjectCommand
 
@@ -14,6 +15,9 @@ class UserCommand(ProjectCommand):
     def _create_user(self, name):
         """Create a user and associated default resources"""
         mgr = self.app.client_manager
+
+        # Generate password
+        password = genword()
 
         # Create project
         project = self._create_project(
@@ -26,10 +30,12 @@ class UserCommand(ProjectCommand):
             name=name,
             domain=None,
             default_project=project['project'].id,
+            password=password,
         )
 
         return {
             'user': user,
+            'password': password,
             **project,
         }
 
@@ -88,6 +94,7 @@ class CreateUser(UserCommand, command.ShowOne):
             'dns_domain': user['network'].dns_domain,
             'cidr': format_list([user['subnetv6'].cidr,
                                  user['subnetv4'].cidr]),
+            'password': user['password'],
         }.items())
 
 
