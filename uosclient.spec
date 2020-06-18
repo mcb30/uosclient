@@ -1,7 +1,7 @@
 %global srcname uosclient
 
 Name:		python-%{srcname}
-Version:	0.0.11
+Version:	0.0.12
 Release:	1%{?dist}
 Summary:	Unipart OpenStack client tools
 License:	GPLv2+
@@ -46,6 +46,15 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %{python3_sitelib}/%{srcname}-%{version}-*.egg-info/
 
 %changelog
+* Thu Jun 18 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.12-1
+- user: Add created user as a member of the user's default project
+- user: Generate an initial random password for created users
+- user: Add commands for creating and deleting users
+- project: Add tools for creating and deleting projects
+- network: Split out network creation and deletion functionality
+- doc: Update documentation to mention CentOS 8
+- test: Abandon testing against Python nightly builds
+
 * Wed May 13 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.11-1
 - port: Allow project to be specified explicitly for routing ports
 
