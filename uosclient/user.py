@@ -16,6 +16,9 @@ class UserCommand(ProjectCommand):
         """Create a user and associated default resources"""
         mgr = self.app.client_manager
 
+        # Identify member role
+        role = mgr.identity.roles.find(name='_member_')
+
         # Generate password
         password = genword()
 
@@ -31,6 +34,13 @@ class UserCommand(ProjectCommand):
             domain=None,
             default_project=project['project'].id,
             password=password,
+        )
+
+        # Add user as project member
+        mgr.identity.roles.grant(
+            role.id,
+            user=user.id,
+            project=project['project'].id,
         )
 
         return {
