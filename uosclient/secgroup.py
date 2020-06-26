@@ -42,7 +42,7 @@ class SecurityGroupCommand(command.Command):
         """Ensure that default security groups and rules exist"""
         mgr = self.app.client_manager
 
-        # Update default security group to allow ICMP echo
+        # Update default security group to allow ICMP echo, SSH, and web
         secgroup = next(mgr.network.security_groups(
             project_id=project.id,
             name='default',
@@ -63,6 +63,9 @@ class SecurityGroupCommand(command.Command):
             port_range_min=128,  # ICMP type
             port_range_max=None,
         )
+        self._ensure_security_group_rules(secgroup, port_range_min=22)
+        self._ensure_security_group_rules(secgroup, port_range_min=80)
+        self._ensure_security_group_rules(secgroup, port_range_min=443)
 
         # Create or update Puppet security group
         pupgroup = next(mgr.network.security_groups(
