@@ -1,7 +1,7 @@
 %global srcname uosclient
 
 Name:		python-%{srcname}
-Version:	0.0.12
+Version:	0.0.13
 Release:	1%{?dist}
 Summary:	Unipart OpenStack client tools
 License:	GPLv2+
@@ -46,6 +46,9 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %{python3_sitelib}/%{srcname}-%{version}-*.egg-info/
 
 %changelog
+* Fri Jun 26 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.13-1
+- secgroup: Enable inbound SSH and HTTP(S) for new projects by default
+
 * Thu Jun 18 2020 Michael Brown <mbrown@fensystems.co.uk> 0.0.12-1
 - user: Add created user as a member of the user's default project
 - user: Generate an initial random password for created users
